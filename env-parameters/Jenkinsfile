@@ -1,4 +1,3 @@
-cat << 'EOF' > Jenkinsfile
 pipeline {
     agent any
 
@@ -24,9 +23,8 @@ pipeline {
         stage('Execute Python Application') {
             steps {
                 echo 'Running application script with environment variables...'
-                sh 'python3 module2-env-parameters/app.py'
+                sh 'python3 env-parameters/app.py'
             }
         }
     }
 }
-EOF
