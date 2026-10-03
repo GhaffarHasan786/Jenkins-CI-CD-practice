@@ -10,7 +10,7 @@ pipeline {
         stage('Run python script') {
             steps {
                 echo 'Step 2: Running Python script...'
-                sh 'python3 freestyle_jobs/app.py'
+                sh 'python3 freestyle-jobs/app.py'
             }
         
             }
