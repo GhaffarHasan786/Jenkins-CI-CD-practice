@@ -1,0 +1,32 @@
+cat << 'EOF' > Jenkinsfile
+pipeline {
+    agent any
+
+    environment {
+        APP_NAME = 'DataProcessor'
+        DEPLOY_ENV = 'Staging'
+    }
+
+    parameters {
+        string(name: 'DEVELOPER_NAME', defaultValue: 'GHAFFAR HASAN', description: 'Developer identity')
+        choice(name: 'ACTION', choices: ['Run-App', 'Test-Only'], description: 'Select operation')
+    }
+
+    stages {
+        stage('Environment Check') {
+            steps {
+                echo "Triggered by: ${params.DEVELOPER_NAME}"
+                echo "Selected Action: ${params.ACTION}"
+                echo "App Name: ${env.APP_NAME}"
+            }
+        }
+
+        stage('Execute Python Application') {
+            steps {
+                echo 'Running application script with environment variables...'
+                sh 'python3 module2-env-parameters/app.py'
+            }
+        }
+    }
+}
+EOF
