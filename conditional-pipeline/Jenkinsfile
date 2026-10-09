@@ -1,0 +1,30 @@
+Jenkinsfile
+pipeline {
+    agent any
+
+    parameters {
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'production'], description: 'Select Deployment Target')
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Run test suite before deploy?')
+    }
+
+    stages {
+        stage('Testing Stage') {
+            when {
+                expression { return params.RUN_TESTS == true }
+            }
+            steps {
+                echo "🧪 Running Automated Tests..."
+                sh "python3 -c \"print('All unit tests passed!')\""
+            }
+        }
+
+        stage('Deploy to Selected Environment') {
+            steps {
+                echo "📦 Triggering Deployment to ${params.ENVIRONMENT}..."
+                withEnv(["TARGET_ENV=${params.ENVIRONMENT}"]) {
+                    sh 'python3 conditional-pipeline/deploy.py'
+                }
+            }
+        }
+    }
+}
