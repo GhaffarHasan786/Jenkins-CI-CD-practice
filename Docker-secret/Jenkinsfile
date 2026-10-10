@@ -10,7 +10,7 @@ pipeline {
         stage('Test Credentials Injection') {
             steps {
                 echo '🚀 Injecting secret into python app...'
-                sh "API_KEY=${env.SECRET_TOKEN} python3 module5-docker-secrets/app.py"
+                sh "API_KEY=${env.SECRET_TOKEN} python3 Docker-secret/app.py"
             }
         }
     }
