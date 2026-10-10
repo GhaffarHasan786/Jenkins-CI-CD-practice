@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    environment {
+        // Secret text ko securely environment variable mein fetch kar rahe hain
+        SECRET_TOKEN = credentials('MY_API_KEY')
+        IMAGE_NAME = 'my-custom-python-app'
+    }
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                echo "🛠️ Building Docker Image: ${env.IMAGE_NAME}..."
+                sh "docker build -t ${env.IMAGE_NAME}:latest ./module5-docker-secrets"
+            }
+        }
+
+        stage('Run Docker Container with Secrets') {
+            steps {
+                echo "🚀 Running Docker Container with injected secret..."
+                sh "docker run --rm -e API_KEY=${env.SECRET_TOKEN} ${env.IMAGE_NAME}:latest"
+            }
+        }
+    }
+}
